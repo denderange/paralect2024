@@ -1,0 +1,58 @@
+.genresInput{
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+
+  &[data-expanded="true"] + div svg{
+    transform: rotate(180deg);
+  }
+
+  &[data-expanded="true"] + div svg path{
+    stroke: var(--color-purple-500);
+  }
+  
+}
+
+.pill::after{
+  content: ',';
+}
+
+.pill + span + span::after{
+  content: '';
+}
+
+.pill button{
+  display: none;
+}
+
+.inputLabel{
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.input{
+  height: 40px;
+  min-height: 40px;
+}
+
+.input:focus + div svg{
+  transform: rotate(180deg);
+}
+
+.input:focus + div svg path{
+  stroke: var(--color-purple-500);
+}
+
+.dropdown{
+  border-radius: 8px;
+}
+
+.option{
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.option:hover {
+  background-color: blueviolet;
+}

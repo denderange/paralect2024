@@ -1,0 +1,24 @@
+.modal{
+  border-radius: 8px;
+}
+
+.modal header{
+  border-bottom: 2px solid var(--color-grey-200);
+}
+
+.title{
+  padding: 16px 0;
+  font-weight: 600;
+}
+
+.rating{
+  width: 100%;
+  margin-bottom: 16px;
+  justify-content: space-between;
+}
+
+.starFilled path{
+  fill: var(--color-purple-600);
+  stroke: var(--color-purple-600);
+}
+
