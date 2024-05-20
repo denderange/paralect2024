@@ -7,7 +7,7 @@ import ButtonRating from "../ButtonRating/ButtonRating";
 import imgNoPoster from "../../public/images/no-poster.png";
 import styles from "./cardMovie.module.css";
 import type { GenreT } from "../../app/lib/definitions";
-import { getGenresNames } from "../../app/lib/getGenreNames";
+import { formatGenresNames } from "../../app/lib/utils/formatGenreNames";
 import ModalRating from "../ModalRating/ModalRating";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -36,7 +36,18 @@ const CardMovie = ({
 }: CardMovieProps) => {
 	const [opened, { open, close }] = useDisclosure(false);
 	const overviewText = overview?.slice(0, 250) + "...";
-	const genreNames = getGenresNames(genres, genre_ids);
+	// const genreNames = formatGenresNames(genres, genre_ids);
+	// console.log(genres.);
+	// console.log(genre_ids);
+
+	// const genreNames = [""];
+	// for (const genre_id of genre_ids) {
+	// 	const genre = genres.find((genre) => genre.id === genre_id);
+	// 	if (genre) {
+	// 		genreNames.push(genre.name);
+	// 	}
+	// }
+	// console.log(genreNames);
 
 	return (
 		<>
@@ -73,9 +84,8 @@ const CardMovie = ({
 
 						<Text className={styles.genres}>
 							<span>Genres </span>
-							{genreNames}
+							{/* {genreNames} */}
 						</Text>
-						<div>movie id: {id}</div>
 					</Stack>
 
 					<ButtonRating

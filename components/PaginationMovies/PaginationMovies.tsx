@@ -9,7 +9,6 @@ type PaginationMoviesProps = {
 };
 
 const PaginationMovies = ({
-	// onPageChange,
 	totalPages,
 	currentPage,
 }: PaginationMoviesProps) => {

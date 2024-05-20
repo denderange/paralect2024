@@ -1,3 +1,4 @@
+"use client";
 import {
 	Flex,
 	Group,
@@ -8,21 +9,17 @@ import {
 	Box,
 	MultiSelect,
 } from "@mantine/core";
-import { setInputRatingNums } from "../../lib/setInputRatingNums";
-import { setInputReleaseYear } from "../../lib/setInputReleaseYear";
+import { setInputRatingNums } from "../../app/lib/utils/setInputRatingNums";
+import { setInputReleaseYear } from "../../app/lib/utils/setInputReleaseYear";
 import Arrow from "../../public/icons/icon-arrow.svg";
 import styles from "./filters.module.css";
 import { useState } from "react";
-
-interface IGenre {
-	id: number;
-	name: string;
-}
+import type { GenreT } from "../../app/lib/definitions";
 
 const Filters = ({ genres }: any) => {
 	const [genreValue, setGenreValue] = useState<string[]>([]);
+	const genreNames = genres.map((genre: GenreT) => genre.name);
 
-	const genreNames: string[] = genres.map((genre: IGenre) => genre.name);
 	const sortByItems = [
 		"Most Popular",
 		"Latest Popular",

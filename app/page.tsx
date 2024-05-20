@@ -3,27 +3,20 @@ import Filters from "../components/Filters/Filters";
 import EmptyMovie from "../components/EmptyMovie/EmptyMovie";
 import Movies from "../components/Movies/Movies";
 import { getGenres, getMovies } from "../app/lib/requests/moviesRequests";
-// import { useState, useEffect } from "react";
 import PaginationMovies from "../components/PaginationMovies/PaginationMovies";
 
 const HomePage = async () => {
-	const genres = await getGenres();
-	const moviesCollection = await getMovies(1);
+	const [{ genres }, moviesCollection] = await Promise.all([
+		getGenres(),
+		getMovies(21),
+	]);
 	const { total_pages } = await moviesCollection;
-	// const [page, setPage] = useState(1);
 	const findedMoviesArrayFetchedSampleEmpty = [];
-
-	// const [data, setData] = useState(null);
-	// const [isLoading, setLoading] = useState(true);
-
-	// const onChangePage = (page: number) => {
-	// 	console.log(page);
-	// };
 
 	return (
 		<>
 			<Stack style={{ margin: "0 auto" }}>
-				{/* <Filters genres={genres} /> */}
+				<Filters genres={genres} />
 				{findedMoviesArrayFetchedSampleEmpty.length !== 0 ? (
 					<EmptyMovie />
 				) : (
@@ -31,7 +24,6 @@ const HomePage = async () => {
 						moviesCollection={moviesCollection}
 						genres={genres}
 					/>
-					// <div></div>
 				)}
 
 				{/* <Pagination
@@ -47,6 +39,7 @@ const HomePage = async () => {
 					currentPage={1}
 					// onPageChange={onChangePage}
 				/>
+				{/* <button onClick={() => console.log("btn clicked")}>Ckick this</button> */}
 			</Stack>
 		</>
 	);

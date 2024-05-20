@@ -1,6 +1,6 @@
 import { Box, Flex } from "@mantine/core";
 import React from "react";
-import { poppins } from "../../app/ui/fonts";
+import { poppins } from "../../ui/fonts";
 import IconLogo from "../../public/icons/icon-logo.svg";
 import styles from "./logo.module.css";
 

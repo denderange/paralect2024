@@ -3,9 +3,15 @@ import CardMovie from "../CardMovie/CardMovie";
 import styles from "./movies.module.css";
 // import { POSTER_BASE_URL } from "../../lib/baseUrl";
 // import type { SingleMovie } from "../../types/appTypes";
-import type { MovieT } from "../../app/lib/definitions";
+import type { MovieT, GenreT } from "../../app/lib/definitions";
 
-const Movies = ({ moviesCollection, genres }: any) => {
+const Movies = ({
+	moviesCollection,
+	genres,
+}: {
+	moviesCollection: any;
+	genres: GenreT[];
+}) => {
 	const movies = moviesCollection.results;
 
 	return (

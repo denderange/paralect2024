@@ -1,6 +1,5 @@
 "use client";
 import { Stack } from "@mantine/core";
-import React from "react";
 import Logo from "../Logo/Logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,7 +10,7 @@ const SideBar = () => {
 
 	const navLinks = [
 		{ title: "Movies", link: "/" },
-		{ title: "Rated movies", link: "/rated-movies" },
+		{ title: "Rated movies", link: "/rated" },
 	];
 
 	return (

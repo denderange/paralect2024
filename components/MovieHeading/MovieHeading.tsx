@@ -1,7 +1,7 @@
 import { Box, Group, Title, Text } from "@mantine/core";
 import styles from "./movieHeading.module.css";
 import IconStar from "../../public/icons/icon-star.svg";
-import { formatPopularity } from "../../app/lib/formatPopularity";
+import { formatPopularity } from "../../app/lib/utils/formatPopularity";
 
 export type MovieHadingProps = {
 	title: string;

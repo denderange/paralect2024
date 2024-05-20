@@ -1,6 +1,5 @@
 import "@mantine/core/styles.css";
 import "../styles/globals.css";
-import React from "react";
 import {
 	MantineProvider,
 	ColorSchemeScript,
@@ -8,7 +7,7 @@ import {
 	Flex,
 } from "@mantine/core";
 import { theme } from "../theme";
-import { inter } from "./ui/fonts";
+import { inter } from "../ui/fonts";
 import SideBar from "../components/SideBar/SideBar";
 
 export const metadata = {

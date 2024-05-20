@@ -1,0 +1,96 @@
+/* movie description top section */
+.container{
+  max-width: 800px;
+  margin-top: 40px;
+  margin-left: 66px;
+  gap: 0px;
+}
+
+.section{
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  height: max-content;
+  padding: 24px;
+  border-radius: 12px;
+  background-color: var(--color-white);
+}
+
+.poster{
+  width: 250px;
+  height: 352px;
+}
+
+.info{
+  height: 352px;  
+  gap: 0px;
+  justify-content: space-between;
+}
+
+.details{
+  align-items: baseline;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.detailsCred{
+  color: var(--color-grey-600);
+}
+
+.detailsCredInfo{
+  margin-left: 4px;
+}
+
+.detailsCred p, .detailsCredInfo p{
+  line-height: 1.4;
+}
+
+.detailsCred p:not(:last-child), .detailsCredInfo p:not(:last-child){
+  margin-bottom: 10px;
+}
+
+.rating{
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+/* movie trailer */
+.sectionBox{
+  width: 100%;
+}
+
+.sectionBox:not(:last-child){
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-grey-300);
+}
+
+.titleSectionText{
+  margin-bottom: 16px;
+  line-height: 1;
+  font-size: 20px;
+  font-weight: 700;
+
+}
+
+.trailerBox{
+  width: 500px;
+  height: 281px;
+  border-radius: 8px;
+  background-color: #d3d3d3;
+}
+
+.textDescription{
+  padding-right: 26px;
+}
+
+.productionImg{
+  width: 40px;
+  height: 40px;
+}
+
+.productionText{
+  font-size: 16px;
+  font-weight: 700;
+  padding-left: 8px;
+}

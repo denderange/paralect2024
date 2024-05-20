@@ -1,15 +1,17 @@
 import { Metadata } from "next";
-import type { GenreT } from "../../lib/definitions";
-import styles from "./movie.module.css";
 import Image from "next/image";
 import { Box, Group, Loader, Stack, Text, UnstyledButton } from "@mantine/core";
+import styles from "./movieid.module.css";
+import type { GenreT, VideoT } from "../../lib/definitions";
 import { getMoviDetails } from "../../lib/requests/moviesRequests";
+import { formatPrice } from "../../lib/utils/formatPrice";
 import imgEmptyMovie from "../../../public/images/empty-movie-large.png";
 import ImgStar from "../../../public/icons/icon-star.svg";
 import imgBlank from "../../../public/images/no-poster.png";
 import MovieHading from "../../../components/MovieHeading/MovieHeading";
 import EmptyMovie from "../../../components/EmptyMovie/EmptyMovie";
 import PosterMovie from "../../../components/PosterMovie/PosterMovie";
+import YoutubeVideo from "../../../components/YoutubeVideo/YoutubeVideo";
 
 type ProductionCompaniesT = {
 	id: number;
@@ -33,24 +35,19 @@ type Props = {
 	genres: GenreT[];
 	overview: string;
 	production_companies: ProductionCompaniesT[];
-	video: boolean;
+	videos: { results: VideoT[] };
 };
 
 export const generateMetadata = async ({
 	params: { id },
+	original_title,
 }: Props): Promise<Metadata> => {
-	const production = [
-		{ image: imgBlank, filmStudio: "Castle Rock Entertainment" },
-		{ image: imgBlank, filmStudio: "Darkwoods Productions" },
-		{ image: imgBlank, filmStudio: "Warner Bros. Pictures" },
-	];
-
 	return {
-		title: `Movie ${id}`,
+		title: `Movie ${original_title}`,
 	};
 };
 
-const Movie = async ({
+const MoviePage = async ({
 	params: { id },
 	original_title,
 	poster_path,
@@ -63,7 +60,7 @@ const Movie = async ({
 	genres,
 	overview,
 	production_companies,
-	video,
+	videos,
 }: Props) => {
 	const movie = await getMoviDetails(id);
 	({
@@ -78,11 +75,20 @@ const Movie = async ({
 		genres,
 		overview,
 		production_companies,
+		videos,
 	} = movie);
 
-	const emptyMovie = Number(id);
 	const poster = `${process.env.POSTER_BASE_URL}/w200${poster_path}`;
-	// console.log(movie);
+	const production = [
+		{ image: imgBlank, filmStudio: "Castle Rock Entertainment" },
+		{ image: imgBlank, filmStudio: "Darkwoods Productions" },
+		{ image: imgBlank, filmStudio: "Warner Bros. Pictures" },
+	];
+
+	const genresList = genres.reduce(
+		(list: string[], genre) => [...list, genre.name],
+		[]
+	);
 
 	return (
 		<Stack className={styles.container}>
@@ -111,18 +117,11 @@ const Movie = async ({
 							<Text>Genres</Text>
 						</Box>
 						<Box className={styles.detailsCredInfo}>
-							<Text>{runtime || "unknown"}</Text>
+							<Text>{runtime ? `${runtime} min` : "unknown"}</Text>
 							<Text>{release_date || "unknown"}</Text>
-							<Text>{budget ? `$ ${budget}` : "unknown"}</Text>
-							<Text>{revenue ? `$ ${revenue}` : "unknown"}</Text>
-							{genres.map(({ name, id }: GenreT) => (
-								<Text
-									key={id}
-									span
-								>
-									{name}
-								</Text>
-							))}
+							<Text>{budget ? `$ ${formatPrice(budget)}` : "unknown"}</Text>
+							<Text>{revenue ? `$ ${formatPrice(revenue)}` : "unknown"}</Text>
+							<Text>{genresList.join(", ")}</Text>
 						</Box>
 					</Group>
 				</Stack>
@@ -138,7 +137,13 @@ const Movie = async ({
 			<Group className={styles.section}>
 				<Box className={styles.sectionBox}>
 					<Text className={styles.titleSectionText}>Trailer</Text>
-					<Box className={styles.trailerBox}></Box>
+					<Box className={styles.trailerBox}>
+						{/* video from youtube */}
+						<YoutubeVideo
+							key_Video={videos.results[0].key}
+							id_Video={videos.results[0].id}
+						/>
+					</Box>
 				</Box>
 
 				<Box className={styles.sectionBox}>
@@ -169,4 +174,4 @@ const Movie = async ({
 	);
 };
 
-export default Movie;
+export default MoviePage;
