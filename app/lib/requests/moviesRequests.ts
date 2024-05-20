@@ -34,7 +34,11 @@ export const getMoviDetails = async (id: number) => {
     options
   )
 
-  const data = await res.json()
-
-  return data
+  if(!res.ok){
+    return 'error'
+  }else{
+    const data = await res.json()
+    
+    return data
+  }  
 }

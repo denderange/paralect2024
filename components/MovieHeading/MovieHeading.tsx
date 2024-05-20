@@ -21,12 +21,12 @@ const MovieHading = ({ title, year, rating, popularity }: MovieHadingProps) => {
 			>
 				{title}
 			</Title>
-			<Text className={styles.year}>{year.slice(0, 4)}</Text>
+			<Text className={styles.year}>{year}</Text>
 
 			<Group gap={4}>
 				<IconStar className={styles.starYellow} />
 				<Text className={styles.rating}>
-					{rating.toFixed(1)} <span>({moviePopularity})</span>
+					{rating} <span>({moviePopularity})</span>
 				</Text>
 			</Group>
 		</Box>

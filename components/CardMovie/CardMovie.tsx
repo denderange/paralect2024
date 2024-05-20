@@ -40,7 +40,7 @@ const CardMovie = ({
 
 	return (
 		<>
-			<Link href="/movieid">
+			<Link href={`/movie/${id}`}>
 				<Group
 					className={styles.card}
 					gap={0}
