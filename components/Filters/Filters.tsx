@@ -19,6 +19,9 @@ import type { GenreT } from "../../app/lib/definitions";
 
 const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 	const [genreValue, setGenreValue] = useState<string[]>([]);
+	const [releaseYear, setReleaseYear] = useState<string | null>();
+	const [voteLte, setVoteLte] = useState<string | null>();
+	const [voteGte, setVoteGte] = useState<string | null>();
 	const genreNames = genres.map((genre: GenreT) => genre.name);
 
 	const searchParams = useSearchParams();
@@ -33,7 +36,10 @@ const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 		vote_averageLte?: number,
 		with_genres?: string
 	) => {
-		const params = new URLSearchParams(searchParams);
+		const params = new URLSearchParams({
+			// page: "1",
+			// sort_by: "popularity.desc",
+		});
 
 		if (page) {
 			params.set("page", page.toString());
@@ -42,16 +48,44 @@ const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 		}
 
 		if (primary_release_year) {
+			setReleaseYear(primary_release_year);
 			params.set("primary_release_year", primary_release_year);
 		} else {
 			params.delete("primary_release_year");
 		}
 
-		replace(`${pathname}?${params.toString()}`);
+		if (sort_by) {
+			params.set("sort_by", sort_by);
+		} else {
+			params.delete("sort_by");
+		}
+
+		if (vote_averageGte) {
+			params.set("vote_averageGte", vote_averageGte.toString());
+		} else {
+			params.delete("vote_averageGte");
+		}
+
+		if (vote_averageLte) {
+			params.set("vote_averageLte", vote_averageLte.toString());
+		} else {
+			params.delete("vote_averageLte");
+		}
+
+		replace(`${pathname}&${params.toString()}`);
+		console.log(replace(`${pathname}&${params.toString()}`));
 
 		console.log("filters comp genreValue: " + genreValue);
 		console.log("filters comp -- params: " + params);
 		console.log("filters comp -- with_genres: " + with_genres);
+	};
+
+	const handleResetFilters = () => {
+		console.log("====== filters ======");
+		console.log("genreValue: " + genreValue);
+		console.log("releaseYear: " + releaseYear);
+		console.log("voteLte: " + voteLte);
+		console.log("voteGte: " + voteGte);
 	};
 
 	const sortByItems = [
@@ -126,9 +160,7 @@ const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 						data={setInputReleaseYear().reverse()}
 						w={283}
 						rightSection={<Arrow />}
-						onChange={(e: any) => {
-							handleSearch(e);
-						}}
+						onChange={(e: any) => handleSearch(e)}
 						defaultValue={searchParams.get("query")?.toString()}
 					/>
 				</Stack>
@@ -145,6 +177,7 @@ const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 							placeholder="From"
 							data={setInputRatingNums()}
 							w={137}
+							onChange={(e) => setVoteLte(e)}
 						/>
 						<Select
 							classNames={{
@@ -158,6 +191,7 @@ const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 							placeholder="To"
 							data={setInputRatingNums().reverse()}
 							w={137}
+							onChange={(e) => setVoteGte(e)}
 						/>
 					</Flex>
 				</Stack>
@@ -166,6 +200,7 @@ const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 						className="btn-text-grey"
 						variant="transparent"
 						p={0}
+						onClick={handleResetFilters}
 					>
 						Reset filters
 					</Button>

@@ -6,8 +6,15 @@ import { getGenres, getMovies } from "../app/lib/requests/moviesRequests";
 import PaginationMovies from "../components/PaginationMovies/PaginationMovies";
 import type { GenreT, FiltersT } from "./lib/definitions";
 
-const HomePage = async ({ searchParams }: { searchParams?: FiltersT }) => {
-	const query = searchParams?.primary_release_year || "";
+const HomePage = async ({
+	searchParams,
+}: {
+	searchParams?: {
+		query?: string;
+		page?: string;
+	};
+}) => {
+	const query = searchParams?.query || "";
 	const currentPage = Number(searchParams?.page) || 1;
 
 	const genres: { genres: GenreT[] } = await getGenres();
@@ -15,8 +22,9 @@ const HomePage = async ({ searchParams }: { searchParams?: FiltersT }) => {
 	const { total_pages } = await moviesCollection;
 	const findedMoviesArrayFetchedSampleEmpty = [];
 
-	console.log("from home page query: " + query);
-	console.log("from home page currentPage: " + currentPage);
+	// console.log("from home page searchParams: " + searchParams);
+	// console.log("from home page query: " + query);
+	// console.log("from home page currentPage: " + currentPage);
 
 	return (
 		<>
@@ -29,7 +37,7 @@ const HomePage = async ({ searchParams }: { searchParams?: FiltersT }) => {
 						moviesCollection={moviesCollection}
 						genres={genres}
 						query={query}
-						currentPage={1}
+						currentPage={currentPage}
 					/>
 				)}
 

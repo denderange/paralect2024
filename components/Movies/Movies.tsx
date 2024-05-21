@@ -18,12 +18,12 @@ const Movies = async ({
 	currentPage: number;
 }) => {
 	const movies = moviesCollection.results;
-	const filteredMovies = await getFilteredMovies(1, currentPage);
+	const filteredMovies = await getFilteredMovies(query, currentPage);
 
-	console.log("Movies comp -- query: " + query);
-	console.log("Movies comp -- filteredMovies: " + filteredMovies);
-	console.log("Movies comp -- results: " + filteredMovies.results);
-	console.log(filteredMovies);
+	// console.log("Movies comp -- query: " + query);
+	// console.log("Movies comp -- filteredMovies: " + filteredMovies);
+	// console.log("Movies comp -- results: " + filteredMovies.results);
+	// console.log(filteredMovies);
 
 	return (
 		<SimpleGrid
