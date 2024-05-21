@@ -1,5 +1,5 @@
 import { unstable_noStore as noStore } from "next/cache";
-const defaultUrlQueryState = "movie?include_adult=false&include_video=false&language=en-US"
+const defaultUrlQueryState = "discover/movie?include_adult=false&include_video=false&language=en-US"
 
 const options = {
   method: 'GET',
@@ -22,7 +22,7 @@ export const getGenres = async () => {
 
 export const getMovies = async (pageNum: number) => {
   const res = await fetch(
-    `${process.env.BASE_URL}/discover/${defaultUrlQueryState}&page=${pageNum}&sort_by=popularity.desc`,
+    `${process.env.BASE_URL}/${defaultUrlQueryState}&page=${pageNum}&sort_by=popularity.desc`,
     options
   )
 
@@ -89,20 +89,45 @@ export const getMoviDetails = async (id: number) => {
 // 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=1998&sort_by=title.desc&vote_average.gte=5&vote_average.lte=8&with_genres=35%2C80'
 
 export const getFilteredMovies = async (
-  with_genres: string, 
-  primary_release_year: number, 
-  vote_averageLte: number,
-  vote_averageGte: number,
-  sort_by: string,
-  page: number
+  page?: number,
+  primary_release_year?: number, 
+  sort_by?: string,
+  vote_averageGte?: number,
+  vote_averageLte?: number,
+  with_genres?: string, 
 ) => {
   noStore();
   const res = await fetch(
-    `${process.env.BASE_URL}/discover/${defaultUrlQueryState}&page=${page}&primary_release_year=${primary_release_year}&sort_by=${sort_by}&vote_average.gte=${vote_averageGte}&vote_average.lte=${vote_averageLte}&with_genres=35%2C80`,
+    `${process.env.BASE_URL}/${defaultUrlQueryState}&page=${page}&primary_release_year=${primary_release_year}&sort_by=${sort_by}&vote_average.gte=${vote_averageGte}&vote_average.lte=${vote_averageLte}&with_genres=${with_genres}`,
     options
   )
 
   const data = await res.json()
 
   return data
+}
+
+export const fetchDataExp = async(
+  page?: number,
+		primary_release_year?: string,
+		sort_by?: string,
+		vote_averageGte?: number,
+		vote_averageLte?: number,
+		with_genres?: string
+)=> {
+  const searchParams = new URLSearchParams({
+    'main-category': 'books',
+    'sub-category': 'fiction',
+    'sort-by': 'popularity'
+  });
+
+  const encodedURL = `${process.env.BASE_URL}/${defaultUrlQueryState}${searchParams.toString()}`;
+  const response = await fetch(`https://api.example.com/items?${encodedURL}`);
+
+  const res = await fetch(
+    `${process.env.BASE_URL}/${defaultUrlQueryState}&page=${page}&primary_release_year=${primary_release_year}&sort_by=${sort_by}&vote_average.gte=${vote_averageGte}&vote_average.lte=${vote_averageLte}&with_genres=${with_genres}`,
+    options
+  )
+  
+  return response.json();
 }

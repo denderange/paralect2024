@@ -15,7 +15,7 @@ const PaginationMovies = ({
 	const onChangePage = (page: number) => {
 		console.log(page);
 	};
-	console.log("current page: " + currentPage);
+	console.log("PaginationMoviesProps -- current page: " + currentPage);
 
 	return (
 		<Pagination

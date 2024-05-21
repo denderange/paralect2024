@@ -39,9 +39,10 @@ export type VideoT = {
 }
 
 export type FiltersT = {
-	genres?: GenreT[];
-	year?: string;
-	rating_nin?: number;
-	rating_max?: number;	 
-	sort_by?: string;
+	page?: number,
+	primary_release_year?: string,
+	sort_by?: string,
+	vote_averageGte?: number,
+	vote_averageLte?: number,
+	with_genres?: string
 }

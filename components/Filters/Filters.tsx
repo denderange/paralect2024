@@ -1,4 +1,5 @@
 "use client";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import {
 	Flex,
 	Group,
@@ -16,18 +17,59 @@ import styles from "./filters.module.css";
 import { useState } from "react";
 import type { GenreT } from "../../app/lib/definitions";
 
-const Filters = ({ genres }: any) => {
+const Filters = ({ genres: { genres } }: { genres: { genres: GenreT[] } }) => {
 	const [genreValue, setGenreValue] = useState<string[]>([]);
 	const genreNames = genres.map((genre: GenreT) => genre.name);
 
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
+	const { replace } = useRouter();
+
+	const handleSearch = (
+		page?: number,
+		primary_release_year?: string,
+		sort_by?: string,
+		vote_averageGte?: number,
+		vote_averageLte?: number,
+		with_genres?: string
+	) => {
+		const params = new URLSearchParams(searchParams);
+
+		if (page) {
+			params.set("page", page.toString());
+		} else {
+			params.set("page", "1");
+		}
+
+		if (primary_release_year) {
+			params.set("primary_release_year", primary_release_year);
+		} else {
+			params.delete("primary_release_year");
+		}
+
+		replace(`${pathname}?${params.toString()}`);
+
+		console.log("filters comp genreValue: " + genreValue);
+		console.log("filters comp -- params: " + params);
+		console.log("filters comp -- with_genres: " + with_genres);
+	};
+
 	const sortByItems = [
-		"Most Popular",
-		"Latest Popular",
-		"Most Rated",
-		"Least Rated",
-		"Most Voted",
-		"Least Voted",
+		"Popularity",
+		"Vote count",
+		"Vote average",
+		"Original title",
+		"Revenue",
+		"Title",
 	];
+	//    sort by:
+	// popularity.desc
+	// vote_count.desc
+	// vote_average.desc
+	// original_title.desc
+	// revenue.desc
+	// primary_release_date.desc
+	// title.desc
 
 	return (
 		<Box
@@ -64,6 +106,9 @@ const Filters = ({ genres }: any) => {
 						data={genreNames}
 						value={genreValue}
 						onChange={setGenreValue}
+						// onChange={(e: any) => {
+						// 	handleSearch(e);
+						// }}
 						withCheckIcon={false}
 						maxValues={3}
 					/>
@@ -81,6 +126,10 @@ const Filters = ({ genres }: any) => {
 						data={setInputReleaseYear().reverse()}
 						w={283}
 						rightSection={<Arrow />}
+						onChange={(e: any) => {
+							handleSearch(e);
+						}}
+						defaultValue={searchParams.get("query")?.toString()}
 					/>
 				</Stack>
 				<Stack>

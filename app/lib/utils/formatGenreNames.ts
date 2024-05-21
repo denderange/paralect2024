@@ -1,7 +1,7 @@
 import type { GenreT } from "../definitions";
 
 export const formatGenresNames = (genres: GenreT[], movieIds: number[]) => {
-  const genreNames = [''];
+  const genreNames = [];
 
   for (const movieId of movieIds) {
     const genre = genres.find(genre => genre.id === movieId);
@@ -11,5 +11,5 @@ export const formatGenresNames = (genres: GenreT[], movieIds: number[]) => {
     }
   }
   
-  return genreNames.join(', ');
+  return genreNames
 }

@@ -15,7 +15,7 @@ type CardMovieProps = {
 	id: number;
 	poster: string | null;
 	genre_ids: number[];
-	genres: GenreT[];
+	genres: { genres: GenreT[] };
 	overview: string | null;
 	title: string;
 	year: string;
@@ -36,18 +36,7 @@ const CardMovie = ({
 }: CardMovieProps) => {
 	const [opened, { open, close }] = useDisclosure(false);
 	const overviewText = overview?.slice(0, 250) + "...";
-	// const genreNames = formatGenresNames(genres, genre_ids);
-	// console.log(genres.);
-	// console.log(genre_ids);
-
-	// const genreNames = [""];
-	// for (const genre_id of genre_ids) {
-	// 	const genre = genres.find((genre) => genre.id === genre_id);
-	// 	if (genre) {
-	// 		genreNames.push(genre.name);
-	// 	}
-	// }
-	// console.log(genreNames);
+	const genreNames = formatGenresNames(genres.genres, genre_ids);
 
 	return (
 		<>
@@ -84,7 +73,7 @@ const CardMovie = ({
 
 						<Text className={styles.genres}>
 							<span>Genres </span>
-							{/* {genreNames} */}
+							{genreNames.slice(0, 3).join(", ")}
 						</Text>
 					</Stack>
 

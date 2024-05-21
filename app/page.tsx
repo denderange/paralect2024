@@ -4,14 +4,19 @@ import EmptyMovie from "../components/EmptyMovie/EmptyMovie";
 import Movies from "../components/Movies/Movies";
 import { getGenres, getMovies } from "../app/lib/requests/moviesRequests";
 import PaginationMovies from "../components/PaginationMovies/PaginationMovies";
+import type { GenreT, FiltersT } from "./lib/definitions";
 
-const HomePage = async () => {
-	const [{ genres }, moviesCollection] = await Promise.all([
-		getGenres(),
-		getMovies(21),
-	]);
+const HomePage = async ({ searchParams }: { searchParams?: FiltersT }) => {
+	const query = searchParams?.primary_release_year || "";
+	const currentPage = Number(searchParams?.page) || 1;
+
+	const genres: { genres: GenreT[] } = await getGenres();
+	const moviesCollection = await getMovies(21);
 	const { total_pages } = await moviesCollection;
 	const findedMoviesArrayFetchedSampleEmpty = [];
+
+	console.log("from home page query: " + query);
+	console.log("from home page currentPage: " + currentPage);
 
 	return (
 		<>
@@ -23,6 +28,8 @@ const HomePage = async () => {
 					<Movies
 						moviesCollection={moviesCollection}
 						genres={genres}
+						query={query}
+						currentPage={1}
 					/>
 				)}
 
